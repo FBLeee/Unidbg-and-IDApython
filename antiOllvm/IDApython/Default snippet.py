@@ -273,7 +273,7 @@ def main():
     print("start deobf fun:0x%x" %(ea))
     deobf(ea)
     print("deobf ok!")
-    test()
+    # test()
     pass
  
 if __name__ == "__main__":
