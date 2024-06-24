@@ -1,3 +1,5 @@
+#代码来自：https://bbs.kanxue.com/thread-277428.htm(某手游xqtd的简单分析,2beNo2)
+
 import idautils
 import idc
 import idaapi
