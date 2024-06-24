@@ -11,3 +11,5 @@
 
 本文复现kanxue论坛中   
 (https://bbs.kanxue.com/thread-277086.htm).记一次基于unidbg模拟执行的去除ollvm混淆
+    
+IDApython去除花指令代码来自：https://bbs.kanxue.com/thread-277428.htm(某手游xqtd的简单分析,2beNo2)
