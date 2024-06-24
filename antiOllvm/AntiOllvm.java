@@ -49,8 +49,8 @@ public class AntiOllvm extends AbstractJni {
 
 
 
-    private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out4.so";
-    private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out5.so";
+    private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out4.so";
+    private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out5.so";
 
 
     AntiOllvm() throws FileNotFoundException {
@@ -71,7 +71,7 @@ public class AntiOllvm extends AbstractJni {
         // 创建Android虚拟机,传入APK,Unidbg可以替我们做部分签名校验的工作
         vm = emulator.createDalvikVM();
         // 加载so到虚拟内存,第二个参数的意思表示是否执行动态库的初始化代码
-        // dm = vm.loadLibrary(new File("unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt.so"),true);
+        // dm = vm.loadLibrary(new File("unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt.so"),true);
         dm = vm.loadLibrary(new File(inName), false);
         // 获取so模块的句柄
         module = dm.getModule();
@@ -205,8 +205,8 @@ public class AntiOllvm extends AbstractJni {
         // TODO 注意：只有在程序运行到汇编  “BR X9”  时，才会进行替换汇编指令操作do_processbr
 
         // WARNING : 对第一次的输出libtprt_out.so修改
-        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out.so";
-        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out1.so";
+        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out.so";
+        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out1.so";
 
         // if(instructions.peek().getAddr() - module.base == 0x5E5AC)
         // {
@@ -217,8 +217,8 @@ public class AntiOllvm extends AbstractJni {
 
 
         // WARNING : 对第二次的输出out1进行修改，使汇编一定要经过Br x9这个汇编指令，后续才能修改,对libtprt_out1.so修改
-        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out1.so";
-        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out2.so";
+        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out1.so";
+        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out2.so";
 
         // if(instructions.peek().getAddr() - module.base == 0x5E770)
         // {
@@ -229,8 +229,8 @@ public class AntiOllvm extends AbstractJni {
 
 
         // WARNING : 对第三次的输出out2进行修改，使汇编一定要经过Br x9这个汇编指令，后续才能修改,对libtprt_out2.so修改
-        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out2.so";
-        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out3.so";
+        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out2.so";
+        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out3.so";
 
         // if(instructions.peek().getAddr() - module.base == 0x5E704)
         // {
@@ -241,8 +241,8 @@ public class AntiOllvm extends AbstractJni {
 
 
         // WARNING : 对第四次的输出out3进行修改，使汇编一定要经过Br x9这个汇编指令，后续才能修改,对libtprt_out3.so修改
-        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out3.so";
-        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out4.so";
+        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out3.so";
+        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out4.so";
 
         // if(instructions.peek().getAddr() - module.base == 0x5E530)
         // {
@@ -252,8 +252,8 @@ public class AntiOllvm extends AbstractJni {
         // }
 
         // WARNING : 对第五次的输出out4进行修改，使汇编一定要经过Br x9这个汇编指令，后续才能修改,对libtprt_out4.so修改
-        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out4.so";
-        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/tengxun.benghuai_110/libtprt_out5.so";
+        // private static final String inName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out4.so";
+        // private static final String outName = "unidbg-android/src/test/resources/example_binaries/arm64-v8a/libtprt_out5.so";
 
         // if(instructions.peek().getAddr() - module.base == 0x5E770)
         // {
