@@ -509,16 +509,16 @@ public class AntiOllvm extends AbstractJni {
         //explain 主动调用JNIonload（trace或者 hook之后，才可以触发trace和hook）
         antiOllvm.HookByUnicorn();
 
-
+        //explain 寻找真实块并替换
         antiOllvm.processBr();
 
+        //explain 主动调用Jni_OnLoad函数
         antiOllvm.callJniOnload();
 
-
+        //explain patch so
         antiOllvm.patch();
 
-
-
+        //关闭模拟器实例
         antiOllvm.destroy();
     }
 
