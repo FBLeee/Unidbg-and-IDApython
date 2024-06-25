@@ -549,7 +549,6 @@ public class AntiOllvm_part2 {
         // NOTE 4.3.2 处理false真实块
         // 从后往前看，找到最后一个真实块前的两个真实块（true真实块、false真实块）； 替换b #0xfffffffffffffdf8 为跳转跳转到两个真实块（true真实块、false真实块）（定位到trace指令中的最后一个b.eq，往前找b指令的地址）
         // toend ：0x5E6BC，通过改变之前的if来改变执行分支，找到最后一个包含真实块ret，上一个真实块：false真实块
-        // 3.2
         PatchIns pie = new PatchIns();
         pie.setAddr(0x5e6bc);
         pie.setIns("b 0x"+Integer.toHexString((int) (getIndexAddr(0x83a9af56L)- 0x5e6bc)));
