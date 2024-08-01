@@ -22,7 +22,7 @@ args.add(vm.addLocalObject(new StringObject(vm, input)));
 String str= "abcdef";
 byte[] str_bytes = str.getBytes(StandardCharsets.UTF_8);
 ByteArray str_bytes_array = new ByteArray(vm,str_bytes );
-args.add(vm.addLocalObject(str_bytes _array));
+args.add(vm.addLocalObject(str_bytes_array));
    //其他参数-3：bool
    //false 填 0，true 填 1
 args.add(1);
