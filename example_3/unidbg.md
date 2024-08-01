@@ -5,26 +5,26 @@
 # 1.参数构建
 
 ```java
-基本方式
+// 基本方式
 List<Object> args = new ArrayList<>(10);
-兼容格式
-// 参数1：JNIEnv *env
+// 兼容格式
+   // 参数1：JNIEnv *env
 args.add(vm.getJNIEnv());
-jobject 或 jclass
+   // 参数2：jobject 或 jclass
 DvmObject<?> cnative = cNative.newObject(null);
 args.add(cnative.hashCode());
-如果用不到直接填0即可
+   //如果用不到直接填0即可
 args.add(0);
-字符串对象
+   //其他参数-1：字符串对象
 String input = "abcdef";
 args.add(vm.addLocalObject(new StringObject(vm, input)));
-bytes 数组
+   //其他参数-2：bytes 数组
 String str= "abcdef";
 byte[] str_bytes = str.getBytes(StandardCharsets.UTF_8);
 ByteArray str_bytes _array = new ByteArray(vm,str_bytes );
 args.add(vm.addLocalObject(str_bytes _array));
-bool
-// false 填 0，true 填 1
+   //其他参数-3：bool
+   //false 填 0，true 填 1
 args.add(1);
 ```
 
@@ -33,7 +33,7 @@ args.add(1);
 ## 2.1 AndroidEmulator 创建
 
 ```java
- 复制代码 隐藏代码
+//复制代码 隐藏代码
 AndroidEmulator emulator = AndroidEmulatorBuilder
                 //指定32位CPU
                 .for32Bit() 
