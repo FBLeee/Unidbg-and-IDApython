@@ -21,7 +21,7 @@ args.add(vm.addLocalObject(new StringObject(vm, input)));
    //其他参数-2：bytes 数组
 String str= "abcdef";
 byte[] str_bytes = str.getBytes(StandardCharsets.UTF_8);
-ByteArray str_bytes _array = new ByteArray(vm,str_bytes );
+ByteArray str_bytes_array = new ByteArray(vm,str_bytes );
 args.add(vm.addLocalObject(str_bytes _array));
    //其他参数-3：bool
    //false 填 0，true 填 1
