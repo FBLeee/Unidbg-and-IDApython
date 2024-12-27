@@ -59,7 +59,7 @@ Module.findExportByName("libc.so", "strcmp")
 DalvikModule dm = vm.loadLibrary("libnative-lib.so", true);
 // 加载好的 libscmain.so对应为一个模块
 module = dm.getModule();
-int address = (int) module.findSymbolByName("funcNmae").getAddress();
+int address = (int) module.findSymbolByName("funcName").getAddress();
 ```
 
 ## 2.2 获取非导出函数地址
