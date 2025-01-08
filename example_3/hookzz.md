@@ -18,26 +18,26 @@ public void hook65540(){
 	// enable hook：启用对 ARM 和 ARM64 架构下分支指令（如 B、BL、BX、BLX 等）的 Hook 功能。它对控制程序的执行流、函数调用链的跟踪和调试等场景特别有用。
 	hookZz.enable_arm_arm64_b_branch();
 	// inline wrap导出函数
-    hookZz.wrap(module.base + 0x11140 + 1, new WrapCallback<HookZzArm32RegisterContext>() { 
-        @Override
-        // 类似于 frida onEnter
-        public void preCall(Emulator<?> emulator, HookZzArm32RegisterContext ctx, HookEntryInfo info) {
-            // 类似于Frida args[0]
-            Inspector.inspect(ctx.getR0Pointer().getByteArray(0, 0x10), "Arg1");
-            System.out.println(ctx.getR1Long());
-            Inspector.inspect(ctx.getR2Pointer().getByteArray(0, 0x10), "Arg3");
-            // push 
-            ctx.push(ctx.getR2Pointer());
-        };
-
-        @Override
-        // 类似于 frida onLeave
-        public void postCall(Emulator<?> emulator, HookZzArm32RegisterContext ctx, HookEntryInfo info) {
-            // pop 取出
-            Pointer output = ctx.pop();
-            Inspector.inspect(output.getByteArray(0, 0x10), "Arg3 after function");
-        }
-    });
+	hookZz.wrap(module.base + 0x11140 + 1, new WrapCallback<HookZzArm32RegisterContext>() { 
+		@Override
+		// 类似于 frida onEnter
+		public void preCall(Emulator<?> emulator, HookZzArm32RegisterContext ctx, HookEntryInfo info) {
+		    // 类似于Frida args[0]
+		    Inspector.inspect(ctx.getR0Pointer().getByteArray(0, 0x10), "Arg1");
+		    System.out.println(ctx.getR1Long());
+		    Inspector.inspect(ctx.getR2Pointer().getByteArray(0, 0x10), "Arg3");
+		    // push 
+		    ctx.push(ctx.getR2Pointer());
+		};
+		
+		@Override
+		// 类似于 frida onLeave
+		public void postCall(Emulator<?> emulator, HookZzArm32RegisterContext ctx, HookEntryInfo info) {
+		    // pop 取出
+		    Pointer output = ctx.pop();
+		    Inspector.inspect(output.getByteArray(0, 0x10), "Arg3 after function");
+		}
+	});
 	hookZz.disable_arm_arm64_b_branch();
 }
 ```
