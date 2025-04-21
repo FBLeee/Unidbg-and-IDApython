@@ -254,7 +254,7 @@ public class AntiOllvm_part2 {
             通过trace知道，经主分发器分发的下一个真实块地址，从而达到收集真实块的目的（通过控制条件，可以找到if所有分支的跳转真实块的地址）
 
         */
-        // NOTE 3.2.1 栈顶指令是b.eq，则进行3（收集真实块）
+        // NOTE 3.2.1 栈顶指令是b.eq，则进行3（收集真实块）==========》  目标：找到所有的 【寄存器的值作为索引，跳转的真实块地址作为value】； 后面3.2.2也是按照此设置寄存器的值，从而之后可以通过寄存器值来获取跳转真实块地址
         if(ins.getMnemonic().toLowerCase(Locale.ROOT).equals("b.eq")) {
             InsAndCtx beq = instructions.peek();
             //等于跳转，检查是否为cmp x8,
@@ -300,14 +300,35 @@ public class AntiOllvm_part2 {
         // 在part1阶段，目的：花指令处理的是只处理 带有 BR X9指令的块，将其变成两个B指令，去掉花指令；
         // 在part2阶段，目的：将  “真实块1---> 主分发器 ---> 真实块2  ”       ===变成==》       “真实块1---> 真实块2”
         //处理分支块
+
+
+        
         /* 示例2
+                处理前：  ***************************根据规律可以发现：    
+                上一个CSEL的 [CMP + B.EQ] 真实块 --->  这一个CSEL真假控制块 ---> 主分发器 ---> 这一个CSEL的[CMP + B.EQ] 真实块；
+                
+                因为之前【3.2.1 】已经找到 {寄存器的值作为索引：对应的真实块地址作为value}
+                所以此处直接按照CSEL的两个寄存器的值[w11的值  和 W12的值]设置【sb.setTrueindex，sb.setFalseindex】。那么后续就可以通过这个寄存器的值，读取各自寄存器值对应的真实块地址了，这样就直接连起来了！！！！！
+
+
+
+                
+                .text:000000000005E58C loc_5E58C                               ; CODE XREF: JNI_OnLoad+1FC↑j
+                .text:000000000005E58C                 CMP             W8, W22
+                .text:000000000005E590                 MOV             W9, #0x118
+                .text:000000000005E594                 MOV             W2, #0xE0
+                .text:000000000005E598                 NOP
+                .text:000000000005E59C                 NOP
+                .text:000000000005E5A0                 B.EQ            loc_5E5A8
+                .text:000000000005E5A4                 B               loc_5E46C ; 此为主分发器
+                .text:000000000005E5A8 ; ---------------------------------------------------------------------------
+                .text:000000000005E5A8
                 .text:000000000005E5A8 loc_5E5A8                               ; CODE XREF: JNI_OnLoad+218↑j
                 .text:000000000005E5A8                 LDR             W8, [SP,#0x80+var_5C]
                 .text:000000000005E5AC                 CMP             W8, #0
                 .text:000000000005E5B0                 CSEL            W8, W11, W12, EQ
-                .text:000000000005E5B4
-                .text:000000000005E5B4 loc_5E5B4
-                .text:000000000005E5B4                 B               loc_5E46C ; 主分发器
+                .text:000000000005E5B4                 B               loc_5E46C ; 此为主分发器
+
 
                 处理后为：
 
@@ -463,6 +484,8 @@ public class AntiOllvm_part2 {
         }
         for(selectBr sb:sbs)
         {
+            //真假分支有前面的CSEL来控制的
+            //  sb.getTrueindex():真分支对应的寄存器的值       sb.getFalseindex()：假分支对应的寄存器的值     
             System.out.printf("select block inds addr: %x,cond: %s . true for %x,false for %x\n",sb.getInsaddr(),sb.getCond(),sb.getTrueindex(),sb.getFalseindex());
         }
 
@@ -497,7 +520,8 @@ public class AntiOllvm_part2 {
         */
         for(selectBr sb:sbs)
         {
-            // warning 注意：(getIndexAddr(sb.getTrueindex()) -  sb.getInsaddr()))  表示Trueindex和CSEL指令地址之间的差距值
+            // warning getIndexAddr(sb.getTrueindex()) 是 拿到   【3.2.1】通过定位 B.EQ找到的 {寄存器值：B.EQ的地址}   的B.EQ的地址
+            // warning 减去sb.getInsaddr()的目的是得到 Trueindex真实块地址和CSEL指令地址之间的差距值
             String ins1 = "b" + sb.getCond() + " 0x"+Integer.toHexString((int) (getIndexAddr(sb.getTrueindex()) -  sb.getInsaddr()));
             String ins2 = "b 0x"+ Integer.toHexString((int) (getIndexAddr(sb.getFalseindex())-sb.getInsaddr()-4));
             PatchIns pi1 = new PatchIns();
