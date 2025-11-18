@@ -1,3 +1,5 @@
+#注意：要用ida7.5，ida9.1 会自动识别造成无法识别的错误
+
 import idautils
 import idc
 import idaapi
@@ -297,4 +299,5 @@ def main():
     pass
  
 if __name__ == "__main__":
+
     main()
